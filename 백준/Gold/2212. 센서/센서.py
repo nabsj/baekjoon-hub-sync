@@ -12,11 +12,15 @@ for i in range(len(sensor_list)-1):
     diff.append(sensor_list[i+1] - sensor_list[i])
 
 diff_sorted = sorted(diff, reverse=True)
+print(diff_sorted)
 
 # 예외 처리
 # 집중국이 K개 있으면 K-1개의 가장 큰거리 차이를 제외하고 나머지를 합산
 if K > 1:
     result = sum(diff_sorted[K-1:])
 else:
-    result = sum(diff)  # 모든 센서가 집중국1개에 의존해야 하는 경우
+    result = sum(diff)  # 집중국1개일때
 print(result)
+
+#[3, 2, 2, 1] -> [2-1:] -> 5
+#[3, 3, 2, 2, 2, 2, 1, 1, 1] -> [5-1:] -> 7
