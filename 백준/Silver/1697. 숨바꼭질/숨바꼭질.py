@@ -13,7 +13,7 @@ def bfs(s, d):
         x = q.popleft()
         
         if x == d:
-            return visited[k]
+            return visited[d]
         
         for i in (x + 1, x - 1, x * 2):
             if 0 <= i <= MAX and not visited[i]: 
