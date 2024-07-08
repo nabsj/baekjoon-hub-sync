@@ -21,24 +21,24 @@ for _ in range(M):
 # print(b_lst)
 
 output = list(map(int, input().split()))
-out_w_lst = output[:M]
-out_b_lst = output[M]
+out_w_lst, out_b_lst = output[:M], output[M]
 
-# 출력층 가중치를 이용한 전처리
-modified_weights = [0] * N  # 입력층의 각 입력에 대한 최종 가중치
-modified_bias = out_b_lst   # 최종 출력층 편향
+# print(out_w_lst, out_b_lst)
+
+# 은닉층 최종가중치
+hidden_final = [0] * N
+
+hidden_final_b = out_b_lst
 
 for i in range(M):
-    # 은닉층 i의 각 입력에 대해 출력층 가중치를 곱하여 수정
     for j in range(len(p_lst[i])):
-        p_index = p_lst[i][j] - 1
-        modified_weights[p_index] += w_lst[i][j] * out_w_lst[i]
-    # 은닉층 i의 편향값도 출력층 가중치와 편향값에 영향을 줌
-    modified_bias += b_lst[i] * out_w_lst[i]
+        hidden_final[p_lst[i][j] - 1] += w_lst[i][j] * out_w_lst[i]
+    hidden_final_b += b_lst[i] * out_w_lst[i]
 
-# 각 쿼리에 대해 최종 출력 계산
 for _ in range(Q):
-    inputs = list(map(int, input().split()))
-    # 입력과 미리 계산된 가중치의 곱 및 편향 합산
-    final_output = sum(inputs[j] * modified_weights[j] for j in range(N)) + modified_bias
-    print(final_output)
+    input_query = list(map(int, input().split()))
+    
+    total_w_input = 0
+    for p in range(N):
+        total_w_input += (input_query[p] * hidden_final[p])
+    print(total_w_input + hidden_final_b)
