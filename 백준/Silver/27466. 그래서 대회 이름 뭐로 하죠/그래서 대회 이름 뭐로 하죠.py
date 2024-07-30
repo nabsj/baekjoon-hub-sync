@@ -1,46 +1,25 @@
-def func(idx, num, remove):
-    if remove == N - M:
-        t = 1
-        for i in range(len(str) - 1, -1, -1):
-            if str[i] == '!':
-                continue
-            if t == 1:
-                if str[i] not in 'AEIOU':
-                    t += 1
-                else:
-                    return False
-            elif t <= 3:
-                if str[i] == 'A':
-                    t += 1
-                else:
-                    return False
-            if t > 3:
-                return True
+def find_competition_name(N, M, S):
+    # 자음 집합
+    consonants = set("BCDFGHJKLMNPQRSTVWXYZ")
+    # 마지막부터 탐색하여 AA<자음> 패턴 찾기
+    i = N - 3
+    while i >= 0:
+        if S[i] == 'A' and S[i+1] == 'A' and S[i+2] in consonants:
+            # 만약 현재 위치에서 길이 M을 만족하는 이름을 만들 수 있다면
+            start_index = i + 3 - M
+            if start_index >= 0:
+                # 결과적으로 가능한 이름
+                T = S[start_index:start_index + M]
+                return "YES", T
+        i -= 1
+    return "NO", None
 
-    if num == 1:
-        if str[idx] not in 'AEIOU':
-            return func(idx - 1, num + 1, remove)
-        else:
-            str[idx] = '!'
-            return func(idx - 1, num, remove + 1)
-    elif num <= 3:
-        if str[idx] == 'A':
-            return func(idx - 1, num + 1, remove)
-        else:
-            str[idx] = '!'
-            return func(idx - 1, num, remove + 1)
-    else:
-        str[idx] = '!'
-        return func(idx - 1, num, remove + 1)
-
-    return True
-
-# 입력 처리
+# 입력 받기
 N, M = map(int, input().split())
-str = list(input().strip())  # 문자열을 리스트로 변경
+S = input()
 
-if func(len(str) - 1, 1, 0):
-    print("YES")
-    print(''.join([ch for ch in str if ch != '!']))
-else:
-    print("NO")
+# 함수 실행
+result, competition_name = find_competition_name(N, M, S)
+print(result)
+if result == "YES":
+    print(competition_name)
